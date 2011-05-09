@@ -58,6 +58,7 @@ my ( @active, @inactive, @not_tickets );
 for my $link ( @{ $Ticket->DependsOn->ItemsArrayRef } ) {
     my $target = $link->TargetObj;
     if ( $target && $target->isa('RT::Ticket') ) {
+        next if $target->Status eq 'deleted';
         if ( $target->QueueObj->IsInactiveStatus( $target->Status ) ) {
             push( @inactive, $link->TargetURI );
         }
