@@ -302,7 +302,7 @@ elsif ( $query{'Query'} ) {
 
 # Show the results, if we were asked.
 if ( $ARGS{'DoSearch'} ) {
-    RT::Interface::Web::Redirect($RT::WebURL.'Search/Results.html?'.$QueryString);
+    RT::Interface::Web::Redirect(RT->Config->Get('WebURL').'Search/Results.html?'.$QueryString);
 }
 
 
