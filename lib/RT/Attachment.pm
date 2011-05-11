@@ -140,12 +140,7 @@ sub Create {
     #Get the filename
     my $Filename = $Attachment->head->recommended_filename;
     # remove path part. 
-    if ($Filename) {
-        $Filename =~ s!.*/!!;
-        if ( $Filename =~ s/\\x(\w{2})/chr hex $1/ige ) {
-            utf8::decode($Filename);
-        }
-    }
+    $Filename =~ s!.*/!! if $Filename;
 
     # MIME::Head doesn't support perl strings well and can return
     # octets which later will be double encoded in low-level code
