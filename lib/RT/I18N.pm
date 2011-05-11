@@ -226,9 +226,13 @@ sub SetMIMEEntityToEncoding {
 
     # convert at least MIME word encoded attachment filename
     foreach my $attr (qw(content-type.name content-disposition.filename)) {
-	if ( my $name = $head->mime_attr($attr) and !$preserve_words ) {
-	    $head->mime_attr( $attr => DecodeMIMEWordsToUTF8($name) );
-	}
+        if ( my $name = $head->mime_attr($attr) and !$preserve_words ) {
+            $head->mime_attr(
+                $attr => MIME::Words::encode_mimewords(
+                    DecodeMIMEWordsToUTF8($name), Charset => $enc,
+                )
+            );
+        }
     }
 
     # If this is a textual entity, we'd need to preserve its original encoding
