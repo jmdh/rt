@@ -176,6 +176,16 @@ my $r = Plack::Runner->new( $0 =~ 'standalone' ? ( server => 'Standalone' ) :
                                                : (),
                             env => 'deployment' );
 
+if ( $is_fastcgi && @ARGV ) {
+    print <<EOF;
+Please use rt-server instead as an external fcgi server:
+    rt-server --server FCGI ...
+or
+    plackup -s FCGI /path/to/rt-server ...
+EOF
+    exit 1;
+}
+
 # figure out the port
 my $port;
 
