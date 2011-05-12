@@ -172,6 +172,19 @@ sub ItemsArrayRef {
     return [ grep { $self->IsValidLink($_) } @{ $self->SUPER::ItemsArrayRef } ];
 }
 
+=head2 Count
+
+Returns number of all valid links found in this search.
+
+note: use RedoSearch to flush this instead of _DoCount
+
+=cut
+
+sub Count {
+    my $self = shift;
+    return scalar @{ $self->ItemsArrayRef };
+}
+
 =head2 IsValidLink
 
 if linked to a local ticket and is deleted, then the link is invalid.

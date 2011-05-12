@@ -2,7 +2,7 @@
 use strict;
 use warnings;
 
-use RT::Test nodata => 1, tests => 87;
+use RT::Test nodata => 1, tests => 88;
 use RT::Test::Web;
 
 use RT::Link;
@@ -234,6 +234,8 @@ ok $cid, 'created a ticket #'. $cid or diag "error: $msg";
 
     is( @{ $children->ItemsArrayRef },
         0, 'ItemsArrayRef skips deleted tickets' );
+
+    is( $children->Count, 0, 'Count skips deleted tickets' );
 
     # back to active status
     $child->SetStatus('new');
