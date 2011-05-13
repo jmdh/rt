@@ -160,6 +160,11 @@ sub AddRecord {
 
 sub Count {
     my $self = shift;
+    my $inaccurate = $self->SUPER::Count;
+
+    # if no links at all, 0 is the accurate answer already.
+    return $inaccurate unless $inaccurate;
+
     $self->_DoSearch if $self->{'must_redo_search'};
     return $self->_RecordCount;
 }
