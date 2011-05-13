@@ -136,18 +136,6 @@ sub LimitReferredToBy {
     $self->Limit(FIELD => 'Base', VALUE => $URI);
 }
 
-
-
-sub Next {
-    my $self = shift;
-
-    my $Link = $self->SUPER::Next();
-    return $Link unless $Link && ref $Link;
-
-    return $Link if $self->IsValidLink( $Link );
-    return $self->Next;
-}
-
 # }}}
 
 =head2 NewItem
@@ -161,28 +149,19 @@ sub NewItem {
     return(RT::Link->new($self->CurrentUser));
 }
 
-=head2 ItemsArrayRef
-
-Returns a reference to the set of all valid links found in this search.
-
-=cut
-
-sub ItemsArrayRef {
+sub AddRecord {
     my $self = shift;
-    return [ grep { $self->IsValidLink($_) } @{ $self->SUPER::ItemsArrayRef } ];
+    my $record = shift;
+    return unless $self->IsValidLink($record);
+
+    push @{$self->{'items'}}, $record;
+    $self->{'rows'}++;
 }
-
-=head2 Count
-
-Returns number of all valid links found in this search.
-
-note: use RedoSearch to flush this instead of _DoCount
-
-=cut
 
 sub Count {
     my $self = shift;
-    return scalar @{ $self->ItemsArrayRef };
+    $self->_DoSearch if $self->{'must_redo_search'};
+    return $self->_RecordCount;
 }
 
 =head2 IsValidLink
