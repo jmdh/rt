@@ -181,7 +181,7 @@ diag('add link with rights only on base');
     ok($id, $msg);
     is(link_count($filename), 0, "scrips ok");
     $child->CurrentUser( RT->SystemUser );
-    $child->_Links('Base')->RedoSearch;
+    $child->_Links('Base')->_DoCount;
     is($child->_Links('Base')->Count, 0, 'link was deleted');
     RT->Config->Set( StrictLinkACL => 1 );
 }
