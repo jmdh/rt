@@ -158,17 +158,6 @@ sub AddRecord {
     $self->{'rows'}++;
 }
 
-sub Count {
-    my $self = shift;
-    my $inaccurate = $self->SUPER::Count;
-
-    # if no links at all, 0 is the accurate answer already.
-    return $inaccurate unless $inaccurate;
-
-    $self->_DoSearch if $self->{'must_redo_search'};
-    return $self->_RecordCount;
-}
-
 =head2 IsValidLink
 
 if linked to a local ticket and is deleted, then the link is invalid.
