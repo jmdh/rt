@@ -211,9 +211,11 @@ sub Prepare {
         $part->head->mime_attr( "Content-Type.charset" => 'utf-8' );
     }
 
+    # $MIMEObj is utf-8 encoded, so it's ok to force( 1 in the arguments )
+    # the conversion
     RT::I18N::SetMIMEEntityToEncoding( $MIMEObj,
         RT->Config->Get('EmailOutputEncoding'),
-        'mime_words_ok', );
+        'mime_words_ok', 1 );
 
     # Build up a MIME::Entity that looks like the original message.
     $self->AddAttachments if ( $MIMEObj->head->get('RT-Attach-Message')
