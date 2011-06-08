@@ -264,12 +264,13 @@ sub SetMIMEEntityToEncoding {
             };
 
             if ($@) {
-                $RT::Logger->error( "Encoding error: "
-                      . $@
-                      . " falling back to iso-8859-1 => $enc" );
                 $string = $orig_string;
 
                 my $guess = _GuessCharset( $string );
+
+                $RT::Logger->error( "Encoding error: "
+                      . $@
+                      . " falling back to $guess => $enc" );
                 my $success;
 
                 if ( $guess eq $enc ) {
