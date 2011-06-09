@@ -359,6 +359,18 @@ Set($ExtractSubjectTagNoMatch, ( ${RT::EmailSubjectTagRegex}
        ? qr/\[(?:${RT::EmailSubjectTagRegex}) #\d+\]/
        : qr/\[\Q$RT::rtname\E #\d+\]/));
 
+=item C<@IgnoreSubjectTicketForQueues>
+
+Set C<@IgnoreSubjectTicketForQueues> to a list of queue names which
+should cause the mail gateway to bypass the extraction of ticket ID
+from subject lines. This is probably only useful in esoteric cases,
+such as when you are sending bounces back to a non-response queue in
+RT.
+
+=cut
+
+Set(@IgnoreSubjectTicketForQueues, ());
+
 =back
 
 =head1 Outgoing Mail Configuration

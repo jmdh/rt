@@ -1377,7 +1377,11 @@ sub Gateway {
     }
     # }}}
 
-    $args{'ticket'} ||= ParseTicketId( $Subject );
+    # Don't parse the ticket ID from the subject for nominated queues
+    unless (grep { $_ eq $args{'queue'} }
+                RT->Config->Get('IgnoreSubjectTicketForQueues')) {
+        $args{'ticket'} ||= ParseTicketId( $Subject );
+    }
 
     $SystemTicket = RT::Ticket->new( $RT::SystemUser );
     $SystemTicket->Load( $args{'ticket'} ) if ( $args{'ticket'} ) ;
